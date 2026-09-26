@@ -18,6 +18,44 @@ is allowed to exist:
 
 > All documents, patients, identifiers, payers and devices are **synthetic**. Not for clinical use.
 
+## Quick start (commands to run)
+
+No API key is needed — every model runs locally. You need Docker Desktop, Python 3.11+ and Node 20+.
+
+```bash
+# 0. one-time: create your local secrets file and set a password in it (never commit .env)
+cp .env.example .env
+
+# 1. start PostgreSQL (Docker)
+docker compose up -d
+
+# 2. start the backend  →  http://127.0.0.1:8010
+cd rag-pipeline
+pip install -r requirements.txt
+python server.py
+
+# 3. start the frontend (new terminal)  →  http://localhost:5173
+cd frontend
+npm install
+npm run dev
+
+# optional: tests and the 15-question benchmark
+cd rag-pipeline
+python -m pytest tests -q
+python evaluator.py
+```
+
+Open **http://localhost:5173/ai-analysis**, pick a role in the header, and ask a question.
+The first start downloads the local models (~2.2 GB, once).
+
+## RAG pipeline in one line
+
+**Question → role check → authorized chunks only → BM25 + dense search → RRF fusion → cross-encoder rerank → conflict & version check → enough evidence? (no → refuse) → local LLM answer → every sentence checked against its citation → PII scan → audit log → answer with clickable citations**
+
+**Why PostgreSQL:** one local, reliable source of truth for documents, versions, chunks,
+embeddings, role permissions, audit logs and evaluation runs. Access rules and lifecycle live in
+the database and are enforced server-side, and it runs in Docker so setup is a single command.
+
 ## Architecture
 
 ```
@@ -174,7 +212,7 @@ the new workspace/dashboard UI were built for P-02. See
 
 ## AI Assistance Disclosure
 
-AI coding assistants were used during development: **Claude Code** (Anthropic) was used for
+**AI coding assistant used: Claude (Claude Code, by Anthropic).** Claude Code was used for
 implementation assistance, code generation, debugging, test writing and documentation drafting.
 All submitted code was reviewed and validated by the participant, and all reported metrics come
 from evaluation runs of this repository.
@@ -184,3 +222,30 @@ from evaluation runs of this repository.
 No real personal or patient data is used anywhere. Names such as "Synthia Testpatient", MRNs of
 the form `SYN-MRN-000N`, `555-010-xxxx` phone numbers and `@example.test` emails are fabricated
 to exercise the privacy controls.
+
+## System flow
+
+```mermaid
+flowchart LR
+    U[User + Role] --> UI[React Workspace]
+    UI -->|/api/query| API[FastAPI]
+    API --> RBAC[RBAC filter]
+    RBAC --> RET[BM25 + Dense + RRF]
+    RET --> RR[Cross-encoder rerank]
+    RR --> CL[Conflict & lifecycle]
+    CL --> SUF{Enough evidence?}
+    SUF -- No --> REF[Refuse + missing evidence]
+    SUF -- Yes --> LLM[Local LLM - Qwen 0.5B]
+    LLM --> VER[Citation verification]
+    VER --> PII[PII output gate]
+    PII --> AUD[Audit log]
+    AUD --> UI
+    DB[(PostgreSQL - Docker)] --- RBAC
+    DB --- RET
+    DB --- AUD
+    ING[Ingestion + PII redaction] --> DB
+```
+
+---
+
+**Developed by [URAYUSHJAIN](https://github.com/URAYUSHJAIN)** for Escape Velocity Hackathon 1.0 (Track P-02).
