@@ -156,15 +156,19 @@ def compute_metrics(results: list[dict], questions: list[dict]) -> dict:
     }
 
 
-def run_evaluation() -> dict:
+def run_evaluation(save: bool = True) -> dict:
+    """save=False (used by tests) computes everything but persists nothing, so
+    test runs never replace the recorded benchmark result."""
     questions = load_questions()
     sync_questions()
     registry = pipeline.pii_registry(refresh=True)
     started = datetime.now(timezone.utc)
-    with db.transaction() as conn:
-        run_id = conn.execute(
-            "INSERT INTO evaluation_runs (started_at, total_questions, config) VALUES (%s,%s,%s) RETURNING id",
-            (started, len(questions), db.jsonb(_config()))).fetchone()["id"]
+    run_id = "unsaved"
+    if save:
+        with db.transaction() as conn:
+            run_id = conn.execute(
+                "INSERT INTO evaluation_runs (started_at, total_questions, config) VALUES (%s,%s,%s) RETURNING id",
+                (started, len(questions), db.jsonb(_config()))).fetchone()["id"]
     results = []
     for q in questions:
         try:
@@ -183,17 +187,18 @@ def run_evaluation() -> dict:
         c = categories.setdefault(r["category"], {"total": 0, "passed": 0})
         c["total"] += 1
         c["passed"] += int(r["passed"])
-    with db.transaction() as conn:
-        conn.execute(
-            """UPDATE evaluation_runs SET finished_at=%s, completed_questions=%s, passed=%s, metrics=%s
-               WHERE id=%s""",
-            (finished, len(results), sum(r["passed"] for r in results),
-             db.jsonb({**metrics, "categories": categories}), run_id))
-        for r in results:
+    if save:
+        with db.transaction() as conn:
             conn.execute(
-                """INSERT INTO evaluation_results (run_id, question_id, passed, status, checks, details)
-                   VALUES (%s,%s,%s,%s,%s,%s)""",
-                (run_id, r["question_id"], r["passed"], r["status"], db.jsonb(r["checks"]), db.jsonb(r)))
+                """UPDATE evaluation_runs SET finished_at=%s, completed_questions=%s, passed=%s, metrics=%s
+                   WHERE id=%s""",
+                (finished, len(results), sum(r["passed"] for r in results),
+                 db.jsonb({**metrics, "categories": categories}), run_id))
+            for r in results:
+                conn.execute(
+                    """INSERT INTO evaluation_results (run_id, question_id, passed, status, checks, details)
+                       VALUES (%s,%s,%s,%s,%s,%s)""",
+                    (run_id, r["question_id"], r["passed"], r["status"], db.jsonb(r["checks"]), db.jsonb(r)))
     report = {
         "run_id": str(run_id), "timestamp": finished.isoformat(),
         "duration_s": round((finished - started).total_seconds(), 1),
@@ -202,8 +207,9 @@ def run_evaluation() -> dict:
         "metrics": metrics, "categories": categories, "config": _config(),
         "per_question_results": results,
     }
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    (RESULTS_DIR / "latest.json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+    if save:
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        (RESULTS_DIR / "latest.json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     return report
 
 

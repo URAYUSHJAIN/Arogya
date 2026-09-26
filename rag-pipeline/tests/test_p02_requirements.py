@@ -263,8 +263,8 @@ def test_r3_evidence_endpoint_logic_row_citation():
 
 # ---------------------------------------------------------------- R8 / A5 evaluation
 def test_r8_evaluation_metrics_computed_and_reproducible(spy):
-    r1 = evaluator.run_evaluation()
-    r2 = evaluator.run_evaluation()
+    r1 = evaluator.run_evaluation(save=False)
+    r2 = evaluator.run_evaluation(save=False)
     assert r1["total_questions"] == 15 and r1["completed_questions"] == 15
     for k in ("groundedness", "citation_precision", "conflict_detection", "refusal_accuracy", "pii_leakage"):
         assert k in r1["metrics"]
@@ -272,7 +272,7 @@ def test_r8_evaluation_metrics_computed_and_reproducible(spy):
     assert [x["passed"] for x in r1["per_question_results"]] == [x["passed"] for x in r2["per_question_results"]]
     assert r1["metrics"]["pii_leakage"] == 0
     assert r1["metrics"]["unauthorized_evidence_rate"] == 0
-    assert (Path(evaluator.RESULTS_DIR) / "latest.json").exists()
+    assert r1["run_id"] == "unsaved"  # test runs never overwrite the recorded benchmark
 
 
 # ---------------------------------------------------------------- API
