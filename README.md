@@ -167,7 +167,7 @@ Prerequisites: Python 3.11+, Node 20+, Docker Desktop (pgvector **not** required
 
 ```bash
 cp .env.example .env          # set POSTGRES_PASSWORD and the same password in DATABASE_URL
-docker compose up -d          # postgres:16-alpine, container arogya-postgres, localhost:5432, volume arogya_pgdata
+docker compose up -d postgres # postgres:16-alpine, container arogya-postgres, localhost:5432, volume arogya_pgdata
 docker compose ps             # wait for "(healthy)"
 ```
 The repo-root `.env` (git-ignored) is read by both `docker-compose.yml` and the backend
@@ -177,10 +177,10 @@ listens on 5432, stop it first (Windows: `net stop postgresql-x64-18`).
 
 | Task | Command |
 |---|---|
-| Start | `docker compose up -d` |
+| Start | `docker compose up -d postgres` |
 | Stop (keep data) | `docker compose stop` |
 | Remove container (keep data) | `docker compose down` |
-| Reset database (delete all data) | `docker compose down -v && docker compose up -d` |
+| Reset database (delete all data) | `docker compose down -v && docker compose up -d postgres` |
 | psql shell | `docker exec -it arogya-postgres psql -U postgres -d arogya_rag` |
 
 DBeaver / any client: host `localhost`, port `5432`, database `arogya_rag`, user `postgres`,
