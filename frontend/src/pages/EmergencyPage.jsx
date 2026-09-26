@@ -4,7 +4,7 @@ import { useWorkspace } from '../context/WorkspaceContext';
 import PillLoader from '../components/PillLoader';
 
 // Audit, Groundedness & Evaluation Dashboard. Every number shown here comes
-// from POST /api/evaluate or GET /api/evaluation/latest — nothing is hard-coded.
+// from POST /api/evaluate or GET /api/evaluation/latest; nothing is hard-coded.
 const METRICS = [
   ['groundedness', 'Groundedness', 'Generator draft claims supported by their cited passages', true],
   ['citation_precision', 'Citation Precision', 'Citations that point to a gold evidence document', true],
@@ -146,11 +146,11 @@ const EmergencyPage = () => {
             {audit.map((a) => (
               <tr key={a.id} className="border-t border-green-50">
                 <td className="p-2 whitespace-nowrap">{new Date(a.created_at).toLocaleTimeString()}</td>
-                <td className="p-2">{a.event_type}</td><td className="p-2">{a.role || '—'}</td>
-                <td className="p-2 max-w-xs truncate">{a.query_redacted || '—'}</td><td className="p-2">{a.status || '—'}</td>
-                <td className="p-2">{(a.retrieved_document_ids || []).join(', ') || '—'}</td>
-                <td className="p-2">{a.conflict_detected ? 'yes' : a.conflict_detected === false ? 'no' : '—'}</td>
-                <td className="p-2">{a.privacy ? (a.privacy.leak_detected_in_delivered_answer ? 'LEAK' : `clean (${a.privacy.output_identifiers_blocked} blocked)`) : '—'}</td>
+                <td className="p-2">{a.event_type}</td><td className="p-2">{a.role || '-'}</td>
+                <td className="p-2 max-w-xs truncate">{a.query_redacted || '-'}</td><td className="p-2">{a.status || '-'}</td>
+                <td className="p-2">{(a.retrieved_document_ids || []).join(', ') || '-'}</td>
+                <td className="p-2">{a.conflict_detected ? 'yes' : a.conflict_detected === false ? 'no' : '-'}</td>
+                <td className="p-2">{a.privacy ? (a.privacy.leak_detected_in_delivered_answer ? 'LEAK' : `clean (${a.privacy.output_identifiers_blocked} blocked)`) : '-'}</td>
               </tr>
             ))}
           </tbody>

@@ -14,7 +14,7 @@ const QUICK = [
 const STATUS = {
   answered: ['Grounded answer', 'bg-[#E8F2E9] text-[#2A4A35] border-[#A8C5AE]'],
   answered_with_conflict: ['Answer + conflict surfaced', 'bg-amber-50 text-amber-800 border-amber-300'],
-  refused: ['Refused — insufficient evidence', 'bg-red-50 text-red-700 border-red-200'],
+  refused: ['Refused: insufficient evidence', 'bg-red-50 text-red-700 border-red-200'],
   generation_unavailable: ['Generator unavailable', 'bg-gray-100 text-gray-700 border-gray-300'],
 };
 
@@ -143,7 +143,7 @@ export default function InterrogatePane({ result, setResult, onOpenEvidence, act
             {result.answer && (
               <div className="rounded-2xl border border-green-100 bg-white p-4 shadow-sm">
                 <div className="text-[11px] font-bold uppercase tracking-wide text-[#6B8F71]">
-                  Answer {result.conflicts.length ? '(from ACTIVE sources — see conflict below)' : ''}
+                  Answer {result.conflicts.length ? '(from ACTIVE sources, see conflict below)' : ''}
                 </div>
                 <div className="mt-2 space-y-1.5 text-[15px] leading-relaxed text-[#1E3A28]">
                   {result.claims.map((c, i) => (
@@ -155,7 +155,7 @@ export default function InterrogatePane({ result, setResult, onOpenEvidence, act
                 </div>
                 {result.verification?.removed_claims?.length > 0 && (
                   <details className="mt-3 text-xs text-gray-600">
-                    <summary className="cursor-pointer font-semibold text-red-700">{result.verification.removed_claims.length} generated sentence(s) removed — not supported by cited evidence</summary>
+                    <summary className="cursor-pointer font-semibold text-red-700">{result.verification.removed_claims.length} generated sentence(s) removed: not supported by cited evidence</summary>
                     {result.verification.removed_claims.map((r, i) => <p key={i} className="mt-1 line-through">{r.text} <span className="no-underline">({r.reason})</span></p>)}
                   </details>
                 )}
@@ -195,7 +195,7 @@ export default function InterrogatePane({ result, setResult, onOpenEvidence, act
                   {result.evidence.map((e) => (
                     <tr key={e.chunk_id} className="cursor-pointer border-t border-green-50 hover:bg-[#E8F2E9]" onClick={() => onOpenEvidence(e)}>
                       <td>{e.ref}</td><td className="font-mono">{e.chunk_id}</td><td>{e.retrieval.sources.join('+')}</td>
-                      <td>{e.retrieval.bm25_rank ?? '—'}</td><td>{e.retrieval.dense_rank ?? '—'}</td>
+                      <td>{e.retrieval.bm25_rank ?? '-'}</td><td>{e.retrieval.dense_rank ?? '-'}</td>
                       <td>{e.retrieval.rrf_score}</td><td className="font-semibold">{e.retrieval.rerank_score}</td>
                     </tr>
                   ))}

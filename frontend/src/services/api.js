@@ -11,7 +11,7 @@ async function request(path, options = {}) {
       ...options,
     });
   } catch {
-    throw new Error('Backend unavailable — start the FastAPI server (python server.py).');
+    throw new Error('Backend unavailable: start the FastAPI server (python server.py).');
   }
   const text = await res.text();
   let data = null;

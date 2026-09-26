@@ -4,7 +4,7 @@ import { useWorkspace } from '../context/WorkspaceContext';
 const PROBLEMS = [
   { t: 'Fragmented knowledge', d: 'Guidelines, SOPs, formularies, payer policies, device manuals and audit records live in different formats and owners.' },
   { t: 'Conflicting versions', d: 'A 2021 SOP and a 2025 guideline can prescribe different regimens. Silent selection is a patient-safety risk.' },
-  { t: 'Access boundaries', d: 'A billing specialist must not retrieve restricted adverse-event records — enforced in retrieval, not hidden in the UI.' },
+  { t: 'Access boundaries', d: 'A billing specialist must not retrieve restricted adverse-event records, enforced in retrieval, not hidden in the UI.' },
   { t: 'Evidence or nothing', d: 'In healthcare a confident wrong answer costs more than no answer. Unsupported questions are refused.' },
 ];
 
@@ -28,10 +28,10 @@ const HomePage = () => {
           Escape Velocity · Track P-02 · Healthcare Greenfield Enterprise RAG
         </span>
         <h1 className="mt-6 text-5xl font-bold text-[#1E3A28] md:text-6xl">Arogya</h1>
-        <p className="mt-2 font-['Playfair_Display'] text-2xl text-[#3D6B4F]">Evidence-Before-Generation Engine</p>
+        <p className="mt-2 text-2xl text-[#3D6B4F]">Evidence-Before-Generation Engine</p>
         <p className="mx-auto mt-5 max-w-2xl text-[#2A4A35]/80">
           Arogya does not optimise for an answer. It optimises for an answer that can prove why it is
-          allowed to exist — authorized evidence, surfaced conflicts, verified citations, or a refusal
+          allowed to exist: authorized evidence, surfaced conflicts, verified citations, or a refusal
           that says exactly what is missing.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">

@@ -17,7 +17,7 @@ const Header = () => {
             <img src={`${import.meta.env.BASE_URL}logo.ico`} alt="" className="h-5 w-5 object-contain" />
           </div>
           <div className="leading-tight">
-            <div className="font-['Playfair_Display'] text-lg font-bold text-[#1E3A28]">AROGYA</div>
+            <div className="text-lg font-bold text-[#1E3A28]">AROGYA</div>
             <div className="text-[10px] uppercase tracking-widest text-[#6B8F71]">Enterprise RAG</div>
           </div>
         </Link>
@@ -47,12 +47,12 @@ const Header = () => {
               leaks === undefined ? 'border-gray-200 bg-gray-50 text-gray-500'
                 : leaks === 0 ? 'border-[#A8C5AE] bg-[#E8F2E9] text-[#2A4A35]' : 'border-red-300 bg-red-50 text-red-700'}`}
           >
-            PII Guard: {leaks === undefined ? '—' : `${leaks} leak${leaks === 1 ? '' : 's'}`}
+            PII Guard: {leaks === undefined ? '-' : `${leaks} leak${leaks === 1 ? '' : 's'}`}
             {privacy ? <span className="ml-1 font-normal opacity-70">/ {privacy.queries_scanned} scanned</span> : null}
           </span>
 
           <span className="rounded-xl border border-[#C8DFC9] bg-white px-3 py-1.5 text-xs font-semibold text-[#2A4A35]">
-            Docs: {corpus ? `${corpus.active} active / ${corpus.total}` : '—'}
+            Docs: {corpus ? `${corpus.active} active / ${corpus.total}` : '-'}
           </span>
           {backendError && (
             <span className="rounded-xl border border-red-300 bg-red-50 px-3 py-1.5 text-xs text-red-700">Backend offline</span>

@@ -109,12 +109,12 @@ export default function TraceInspector({ selected }) {
 
           {data.table ? (
             <>
-              <div className="text-[11px] font-bold uppercase tracking-wide text-[#6B8F71]">Table {ev.table_id} — row {ev.row_id} highlighted</div>
+              <div className="text-[11px] font-bold uppercase tracking-wide text-[#6B8F71]">Table {ev.table_id}, row {ev.row_id} highlighted</div>
               <TableEvidenceViewer table={data.table} highlightRowId={ev.row_id} />
             </>
           ) : (
             <>
-              <div className="text-[11px] font-bold uppercase tracking-wide text-[#6B8F71]">Document context — cited passage highlighted</div>
+              <div className="text-[11px] font-bold uppercase tracking-wide text-[#6B8F71]">Document context, cited passage highlighted</div>
               <div className="space-y-1.5">
                 {data.document_chunks.map((c) => {
                   const hit = c.chunk_id === ev.chunk_id;
