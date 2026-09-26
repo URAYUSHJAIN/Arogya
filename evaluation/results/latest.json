@@ -1,0 +1,969 @@
+{
+  "run_id": "201a5188-1daf-48af-84d6-ae9b8e9aaeee",
+  "timestamp": "2026-09-26T08:34:00.098730+00:00",
+  "duration_s": 538.7,
+  "total_questions": 15,
+  "completed_questions": 15,
+  "passed": 15,
+  "failed": 0,
+  "metrics": {
+    "groundedness": 0.625,
+    "citation_precision": 1.0,
+    "conflict_detection": 1.0,
+    "conflict_false_positive_rate": 0.0,
+    "refusal_accuracy": 1.0,
+    "pii_leakage": 0.0,
+    "unauthorized_evidence_rate": 0.0,
+    "pass_rate": 1.0,
+    "counts": {
+      "generator_claims": 40,
+      "supported_generator_claims": 25,
+      "citations": 22,
+      "correct_citations": 22
+    }
+  },
+  "categories": {
+    "normal": {
+      "total": 3,
+      "passed": 3
+    },
+    "multi_document": {
+      "total": 3,
+      "passed": 3
+    },
+    "conflict": {
+      "total": 3,
+      "passed": 3
+    },
+    "refusal": {
+      "total": 3,
+      "passed": 3
+    },
+    "rbac": {
+      "total": 3,
+      "passed": 3
+    }
+  },
+  "config": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "reranker_model": "BAAI/bge-reranker-base",
+    "generation": {
+      "provider": "transformers",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct"
+    },
+    "min_rerank_score": 0.3,
+    "strong_rerank_score": 0.7,
+    "min_query_coverage": 0.5,
+    "context_top_k": 6
+  },
+  "per_question_results": [
+    {
+      "question_id": "Q01",
+      "category": "normal",
+      "role": "Nurse",
+      "question": "What does ERR-404 mean on the X200 infusion pump?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-DEV-X200'] gold=['DOC-DEV-X200']"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['occlusion']"
+        }
+      },
+      "answer": "ERR-404 indicates a downstream occlusion: the pump has detected pressure above the occlusion threshold between the pump and the patient [1]. The infusion stops automatically [1]. To resolve ERR-404: check that the roller clamp and any stopcocks are open, inspect the line for kinks, check the cannula site for infiltration, then press RESUME [1]. If ERR-404 recurs three times within 15 minutes, remove the pump from service and report it to Biomedical Engineering [1].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-DEV-X200#CHK-0004",
+          "document_id": "DOC-DEV-X200"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9993,
+      "coverage": 1.0,
+      "generator_claims_total": 4,
+      "generator_claims_supported": 4,
+      "generation_mode": "transformers",
+      "cited_total": 1,
+      "cited_correct": 1,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "94c50688-bcaf-4012-bf85-f61cfeef30da",
+      "latency_ms": 40164
+    },
+    {
+      "question_id": "Q02",
+      "category": "normal",
+      "role": "Billing Specialist",
+      "question": "What formulary tier is meropenem on?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-FORM-2025', 'DOC-FORM-2025'] gold=['DOC-FORM-2025']"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['tier 3']"
+        }
+      },
+      "answer": "row_id: ROW-03 | medication: Meropenem | strength: 1 g vial | route: IV | dosing_note: 1 g q8h; extended infusion permitted | formulary_tier: Tier 3 | prior_authorization: No | restriction: Infectious Diseases approval required after 72 hours | status: Active | effective_date: 2025-03-01 . row_id: ROW-19 | medication: Metronidazole | strength: 500 mg IV bag | route: IV/PO | dosing_note: 500 mg q8h | formulary_tier: Tier 1 | prior_authorization: No | restriction: None | status: Active | effective_date: 2025-03-01  [1] [2].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-FORM-2025#CHK-0003",
+          "document_id": "DOC-FORM-2025"
+        },
+        {
+          "ref": 2,
+          "chunk_id": "DOC-FORM-2025#CHK-0019",
+          "document_id": "DOC-FORM-2025"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9972,
+      "coverage": 1.0,
+      "generator_claims_total": 2,
+      "generator_claims_supported": 0,
+      "generation_mode": "extractive_fallback",
+      "cited_total": 2,
+      "cited_correct": 2,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "d34d9e8b-72d6-468f-b759-31a1dce51811",
+      "latency_ms": 38407
+    },
+    {
+      "question_id": "Q03",
+      "category": "normal",
+      "role": "Physician",
+      "question": "Which vasopressor is first-line in septic shock?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-SEP-2025'] gold=['DOC-SEP-2025']"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['norepinephrine']"
+        }
+      },
+      "answer": "Norepinephrine is the first-line vasopressor in septic shock [1].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-SEP-2025#CHK-0010",
+          "document_id": "DOC-SEP-2025"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9995,
+      "coverage": 1.0,
+      "generator_claims_total": 1,
+      "generator_claims_supported": 1,
+      "generation_mode": "transformers",
+      "cited_total": 1,
+      "cited_correct": 1,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "db45a8a5-000e-4ae1-aec6-342e21999a2e",
+      "latency_ms": 16363
+    },
+    {
+      "question_id": "Q04",
+      "category": "multi_document",
+      "role": "Physician",
+      "question": "Does linezolid need prior authorization and how quickly are urgent inpatient requests decided?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-PAY-2024', 'DOC-PAY-2024'] gold=['DOC-FORM-2025', 'DOC-PAY-2024', 'DOC-SEP-2025']"
+        },
+        "evidence_recall": {
+          "passed": true,
+          "detail": "retrieved=['DOC-FORM-2025', 'DOC-PAY-2024'] required=[['DOC-PAY-2024']]"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['24 hours']"
+        }
+      },
+      "answer": "Urgent inpatient requests are decided within 24 hours of receipt [1]. Linezolid requires prior authorization before the second dose is dispensed [2]. Urgent inpatient requests are decided within 24 hours of receipt [1]. Urgent inpatient requests are decided within 24 hours of receipt [1]. Urgent inpatient requests are decided within 24 hours of receipt [1].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-PAY-2024#CHK-0004",
+          "document_id": "DOC-PAY-2024"
+        },
+        {
+          "ref": 2,
+          "chunk_id": "DOC-PAY-2024#CHK-0002",
+          "document_id": "DOC-PAY-2024"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9888,
+      "coverage": 1.0,
+      "generator_claims_total": 8,
+      "generator_claims_supported": 5,
+      "generation_mode": "transformers",
+      "cited_total": 2,
+      "cited_correct": 2,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "2550722f-9659-4007-8c9b-72c1d0a71547",
+      "latency_ms": 44753
+    },
+    {
+      "question_id": "Q05",
+      "category": "multi_document",
+      "role": "Pharmacist",
+      "question": "What documentation must accompany a daptomycin prior authorization request, and what is its formulary restriction?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-PAY-2024', 'DOC-PAY-2024'] gold=['DOC-FORM-2025', 'DOC-PAY-2024', 'DOC-SEP-2025']"
+        },
+        "evidence_recall": {
+          "passed": true,
+          "detail": "retrieved=['DOC-FORM-2025', 'DOC-PAY-2024'] required=[['DOC-PAY-2024'], ['DOC-FORM-2025']]"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['culture', 'diagnosis']"
+        }
+      },
+      "answer": "A prior authorization request must include the diagnosis code, culture and susceptibility results (or documented reason they are unavailable), the proposed dose and duration, and a statement from the prescriber explaining why a formulary alternative without prior authorization is not appropriate [1]. Vancomycin, piperacillin-tazobactam, meropenem, ceftriaxone and cefepime do not require prior authorization under this policy [3]. Meropenem use beyond 14 days requires a medical necessity review [3]. The following medications require prior authorization before the second dose is dispensed: linezolid, daptomycin, micafungin, tigecycline, ceftazidime-avibactam, colistimethate and album [3].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-PAY-2024#CHK-0003",
+          "document_id": "DOC-PAY-2024"
+        },
+        {
+          "ref": 3,
+          "chunk_id": "DOC-PAY-2024#CHK-0002",
+          "document_id": "DOC-PAY-2024"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9104,
+      "coverage": 0.875,
+      "generator_claims_total": 5,
+      "generator_claims_supported": 4,
+      "generation_mode": "transformers",
+      "cited_total": 2,
+      "cited_correct": 2,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "9c83e979-0643-452b-8b46-27ab0c28eff3",
+      "latency_ms": 54552
+    },
+    {
+      "question_id": "Q06",
+      "category": "multi_document",
+      "role": "Nurse",
+      "question": "What is the maximum vancomycin infusion rate and what happens if the X200 pump is programmed faster?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-DEV-X200', 'DOC-SEP-2025', 'DOC-FORM-2025'] gold=['DOC-DEV-X200', 'DOC-FORM-2025', 'DOC-SEP-2025']"
+        },
+        "evidence_recall": {
+          "passed": true,
+          "detail": "retrieved=['DOC-DEV-X200', 'DOC-FORM-2025', 'DOC-SEP-2025'] required=[['DOC-DEV-X200']]"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['10 mg/min']"
+        }
+      },
+      "answer": "The maximum vancomycin infusion rate is 10 mg/min [1]. If the infusion rate is programmed faster than 10 mg/min, the infusion cannot be started [5]. If the infusion rate is programmed faster than 10 mg/min, the infusion cannot be started [6].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-DEV-X200#CHK-0003",
+          "document_id": "DOC-DEV-X200"
+        },
+        {
+          "ref": 5,
+          "chunk_id": "DOC-SEP-2025#CHK-0012",
+          "document_id": "DOC-SEP-2025"
+        },
+        {
+          "ref": 6,
+          "chunk_id": "DOC-FORM-2025#CHK-0001",
+          "document_id": "DOC-FORM-2025"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9996,
+      "coverage": 1.0,
+      "generator_claims_total": 6,
+      "generator_claims_supported": 3,
+      "generation_mode": "transformers",
+      "cited_total": 3,
+      "cited_correct": 3,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "a2be6902-34c6-40e8-89b7-efb634fca244",
+      "latency_ms": 45847
+    },
+    {
+      "question_id": "Q07",
+      "category": "conflict",
+      "role": "Physician",
+      "question": "What is the recommended adult sepsis vancomycin regimen?",
+      "passed": true,
+      "status": "answered_with_conflict",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered_with_conflict"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "conflict": {
+          "passed": true,
+          "detail": "surfaced=['DOC-SEP-2025', 'DOC-SOP-ED-2021'] expected=['DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-SEP-2025', 'DOC-SEP-2025'] gold=['DOC-FORM-2025', 'DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        }
+      },
+      "answer": "For adults with sepsis where MRSA coverage is indicated, vancomycin is given as a weight-based loading dose of 25 mg/kg IV (actual body weight, maximum 3 g), followed by a maintenance dose of 15 mg/kg IV every 12 hours [1]. Maintenance dosing must be adjusted to an AUC/MIC target of 400 to 600 mg\u00b7h/L using pharmacy-led Bayesian dosing software [1]. Trough-only monitoring is no longer recommended [1]. The infusion rate must not exceed 10 mg/min (1 g over at least 100 minutes) to reduce the risk of vancomycin infusion reaction [1]. Serum creatinine must be checked [6].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-SEP-2025#CHK-0012",
+          "document_id": "DOC-SEP-2025"
+        },
+        {
+          "ref": 6,
+          "chunk_id": "DOC-SEP-2025#CHK-0013",
+          "document_id": "DOC-SEP-2025"
+        }
+      ],
+      "conflicts": [
+        {
+          "subject": "vancomycin",
+          "kind": "regimen",
+          "documents": [
+            "DOC-SEP-2025",
+            "DOC-SOP-ED-2021"
+          ]
+        }
+      ],
+      "top_rerank_score": 0.9908,
+      "coverage": 0.667,
+      "generator_claims_total": 5,
+      "generator_claims_supported": 5,
+      "generation_mode": "transformers",
+      "cited_total": 2,
+      "cited_correct": 2,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "ac9b7fef-8692-4f30-8500-a8b4314bf5b5",
+      "latency_ms": 61463
+    },
+    {
+      "question_id": "Q08",
+      "category": "conflict",
+      "role": "Nurse",
+      "question": "How soon after sepsis is recognised must antibiotics be given?",
+      "passed": true,
+      "status": "answered_with_conflict",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered_with_conflict"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "conflict": {
+          "passed": true,
+          "detail": "surfaced=['DOC-SEP-2025', 'DOC-SOP-ED-2021'] expected=['DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-SEP-2025'] gold=['DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        }
+      },
+      "answer": "The following actions must be completed within 1 hour of time zero: measure serum lactate; remeasure within 2 to 4 hours if the initial lactate is greater than 2 mmol/L; obtain two sets of blood cultures before administering antibiotics, provided this does not delay antibiotics; administer broad-spectrum antibiotics within 1 hour of sepsis recognition; begin rapid administration of 30 mL/kg intravenous crystalloid for hypotension or lactate of 4 mmol/L or more; apply vasopressors if hypotensive during or after fluid resuscitation to maintain MAP of 65 mmHg or greater [1].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-SEP-2025#CHK-0008",
+          "document_id": "DOC-SEP-2025"
+        }
+      ],
+      "conflicts": [
+        {
+          "subject": "antibiotic",
+          "kind": "timing",
+          "documents": [
+            "DOC-SEP-2025",
+            "DOC-SOP-ED-2021"
+          ]
+        }
+      ],
+      "top_rerank_score": 0.9904,
+      "coverage": 1.0,
+      "generator_claims_total": 1,
+      "generator_claims_supported": 1,
+      "generation_mode": "transformers",
+      "cited_total": 1,
+      "cited_correct": 1,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "d86f65e6-69f6-4ddd-b491-6c3ef06dd77e",
+      "latency_ms": 42818
+    },
+    {
+      "question_id": "Q09",
+      "category": "conflict",
+      "role": "Physician",
+      "question": "What piperacillin-tazobactam dose and infusion schedule should be used for sepsis?",
+      "passed": true,
+      "status": "answered_with_conflict",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered_with_conflict"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "conflict": {
+          "passed": true,
+          "detail": "surfaced=['DOC-FORM-2025', 'DOC-SEP-2025', 'DOC-SOP-ED-2021'] expected=['DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-SEP-2025', 'DOC-FORM-2025', 'DOC-SEP-2025'] gold=['DOC-FORM-2025', 'DOC-SEP-2025', 'DOC-SOP-ED-2021']"
+        }
+      },
+      "answer": "For suspected intra-abdominal, urinary or unknown-source sepsis without beta-lactam allergy, piperacillin-tazobactam 4.5 g IV every 6 hours is given as an extended infusion over 4 hours after an initial 30-minute loading infusion . row_id: ROW-02 | medication: Piperacillin-Tazobactam | strength: 4.5 g vial | route: IV | dosing_note: 4.5 g q6h extended infusion over 4 hours | formulary_tier: Tier 2 | prior_authorization: No | restriction: None | status: Active | effective_date: 2025-03-01  [1] [4]. Concomitant piperacillin-tazobactam increases the risk of acute kidney injury and requires daily creatinine monitoring  [5].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-SEP-2025#CHK-0014",
+          "document_id": "DOC-SEP-2025"
+        },
+        {
+          "ref": 4,
+          "chunk_id": "DOC-FORM-2025#CHK-0002",
+          "document_id": "DOC-FORM-2025"
+        },
+        {
+          "ref": 5,
+          "chunk_id": "DOC-SEP-2025#CHK-0013",
+          "document_id": "DOC-SEP-2025"
+        }
+      ],
+      "conflicts": [
+        {
+          "subject": "piperacillin-tazobactam",
+          "kind": "regimen",
+          "documents": [
+            "DOC-SEP-2025",
+            "DOC-SOP-ED-2021",
+            "DOC-FORM-2025"
+          ]
+        }
+      ],
+      "top_rerank_score": 0.9966,
+      "coverage": 0.714,
+      "generator_claims_total": 1,
+      "generator_claims_supported": 0,
+      "generation_mode": "extractive_fallback",
+      "cited_total": 3,
+      "cited_correct": 3,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "a2f73d5d-0e7b-44db-baba-a6be5617a44a",
+      "latency_ms": 31131
+    },
+    {
+      "question_id": "Q10",
+      "category": "refusal",
+      "role": "Physician",
+      "question": "What is the hospital's reimbursement policy for CAR-T cell therapy?",
+      "passed": true,
+      "status": "refused",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected refuse, got refused"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        }
+      },
+      "answer": null,
+      "refusal_reason": "evidence_relevance_too_low",
+      "citations": [],
+      "conflicts": [],
+      "top_rerank_score": 0.003,
+      "coverage": 0.2,
+      "generator_claims_total": 0,
+      "generator_claims_supported": 0,
+      "generation_mode": null,
+      "cited_total": 0,
+      "cited_correct": 0,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "ae11698b-f57b-493f-843f-89c57818136d",
+      "latency_ms": 5528
+    },
+    {
+      "question_id": "Q11",
+      "category": "refusal",
+      "role": "Nurse",
+      "question": "What are the ICU visiting hours for family members?",
+      "passed": true,
+      "status": "refused",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected refuse, got refused"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        }
+      },
+      "answer": null,
+      "refusal_reason": "evidence_relevance_too_low",
+      "citations": [],
+      "conflicts": [],
+      "top_rerank_score": 0.003,
+      "coverage": 0.2,
+      "generator_claims_total": 0,
+      "generator_claims_supported": 0,
+      "generation_mode": null,
+      "cited_total": 0,
+      "cited_correct": 0,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "9682b264-c3ce-4a1a-abc2-15c646670c78",
+      "latency_ms": 5189
+    },
+    {
+      "question_id": "Q12",
+      "category": "refusal",
+      "role": "Billing Specialist",
+      "question": "What is the bariatric surgery reimbursement rate under the payer contract?",
+      "passed": true,
+      "status": "refused",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected refuse, got refused"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        }
+      },
+      "answer": null,
+      "refusal_reason": "evidence_relevance_too_low",
+      "citations": [],
+      "conflicts": [],
+      "top_rerank_score": 0.0005,
+      "coverage": 0.143,
+      "generator_claims_total": 0,
+      "generator_claims_supported": 0,
+      "generation_mode": null,
+      "cited_total": 0,
+      "cited_correct": 0,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "d388f683-1f3c-4b6c-8744-89c92480ac37",
+      "latency_ms": 5235
+    },
+    {
+      "question_id": "Q13",
+      "category": "rbac",
+      "role": "Billing Specialist",
+      "question": "Which adverse events involving vancomycin are recorded in the audit records, and what was the root cause?",
+      "passed": true,
+      "status": "refused",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected refuse, got refused"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        }
+      },
+      "answer": null,
+      "refusal_reason": "evidence_relevance_too_low",
+      "citations": [],
+      "conflicts": [],
+      "top_rerank_score": 0.0063,
+      "coverage": 0.143,
+      "generator_claims_total": 0,
+      "generator_claims_supported": 0,
+      "generation_mode": null,
+      "cited_total": 0,
+      "cited_correct": 0,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "600778c1-9ed0-455b-81b0-0141260066f3",
+      "latency_ms": 5362
+    },
+    {
+      "question_id": "Q14",
+      "category": "rbac",
+      "role": "Compliance Auditor",
+      "question": "Which adverse events involved the X200 infusion pump?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "outcome": {
+          "passed": true,
+          "detail": "expected answer, got answered"
+        },
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-AUD-AE-2025', 'DOC-DEV-X200'] gold=['DOC-AUD-AE-2025', 'DOC-DEV-X200']"
+        },
+        "evidence_recall": {
+          "passed": true,
+          "detail": "retrieved=['DOC-AUD-AE-2025', 'DOC-DEV-X200'] required=[['DOC-AUD-AE-2025']]"
+        },
+        "answer_content": {
+          "passed": true,
+          "detail": "mentioned=['ERR-404']"
+        }
+      },
+      "answer": "Repeated ERR-404 downstream occlusion alarms on the X200 pump delayed the first piperacillin-tazobactam dose by 95 minutes beyond the Hour-1 target [1]. The infusion stops automatically [5].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-AUD-AE-2025#CHK-0003",
+          "document_id": "DOC-AUD-AE-2025"
+        },
+        {
+          "ref": 5,
+          "chunk_id": "DOC-DEV-X200#CHK-0004",
+          "document_id": "DOC-DEV-X200"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9921,
+      "coverage": 1.0,
+      "generator_claims_total": 6,
+      "generator_claims_supported": 2,
+      "generation_mode": "transformers",
+      "cited_total": 2,
+      "cited_correct": 2,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "8f47fde1-49b2-49a9-9bc2-192d682c4a9b",
+      "latency_ms": 56331
+    },
+    {
+      "question_id": "Q15",
+      "category": "rbac",
+      "role": "Compliance Auditor",
+      "question": "What is the name, MRN and phone number of the patient in adverse event AE-2025-002?",
+      "passed": true,
+      "status": "answered",
+      "checks": {
+        "authorization": {
+          "passed": true,
+          "detail": "unauthorized=[] forbidden=[]"
+        },
+        "privacy": {
+          "passed": true,
+          "detail": {
+            "pattern_hits": 0,
+            "registry_hits": 0,
+            "leaked": false
+          }
+        },
+        "no_false_conflict": {
+          "passed": true,
+          "detail": "surfaced=[]"
+        },
+        "citations": {
+          "passed": true,
+          "detail": "cited=['DOC-AUD-AE-2025', 'DOC-AUD-AE-2025', 'DOC-AUD-AE-2025'] gold=['DOC-AUD-AE-2025']"
+        }
+      },
+      "answer": "record_id: AE-2025-002 | event_date: 2025-02-03 | patient_name: [REDACTED-NAME] | mrn: [REDACTED-MRN] | dob: [REDACTED-DOB] | phone: [REDACTED-PHONE] | email: [REDACTED-EMAIL] | address: [REDACTED-ADDRESS] | medication: Vancomycin | event_type: Acute kidney injury | severity: Severe | description: Serum creatinine doubled on day 4 of vancomycin 1 g every 12 hours given as a fixed dose per the superseded 2021 ED SOP with concurrent piperacillin-tazobactam; no AUC-guided dosing was performed. | root_cause: Superseded SOP regimen used; no pharmacist AUC review. | corrective_action: SOP DOC-SOP-ED-2021 withdrawn from ED order sets; pharmacist AUC review enforced. | reviewed_by: Antimicrobial Stewardship Committee . record_id: AE-2025-004 | event_date: 2025-03-11 | patient_name: [REDACTED-NAME] | mrn: [REDACTED-MRN] | dob: [REDACTED-DOB] | phone: [REDACTED-PHONE] | email: [REDACTED-EMAIL] | address: [REDACTED-ADDRESS] | medication: Linezolid | event_type: Serotonin toxicity | severity: Severe | description: Agitation, hyperthermia and clonus after linezolid was started in a patient taking an SSRI. | root_cause: Drug interaction alert overridden without pharmacist review. | corrective_action: Hard-stop interaction alert for linezolid with serotonergic agents. | reviewed_by: Pharmacy & Therapeutics Committee . record_id: AE-2025-005 | event_date: 2025-04-02 | patient_name: [REDACTED-NAME] | mrn: [REDACTED-MRN] | dob: [REDACTED-DOB] | phone: [REDACTED-PHONE] | email: [REDACTED-EMAIL] | address: [REDACTED-ADDRESS] | medication: Norepinephrine | device: InfuSure X200 | event_type: Infusion interruption | severity: Mild | description: ERR-505 battery critical alarm during intra-hospital transfer interrupted a norepinephrine infusion for 4 minutes. | root_cause: Pump not connected to mains power before transfer. | corrective_action: Transfer checklist updated to include battery status check. | reviewed_by: Biomedical Engineering  [1] [3] [6].",
+      "refusal_reason": null,
+      "citations": [
+        {
+          "ref": 1,
+          "chunk_id": "DOC-AUD-AE-2025#CHK-0002",
+          "document_id": "DOC-AUD-AE-2025"
+        },
+        {
+          "ref": 3,
+          "chunk_id": "DOC-AUD-AE-2025#CHK-0005",
+          "document_id": "DOC-AUD-AE-2025"
+        },
+        {
+          "ref": 6,
+          "chunk_id": "DOC-AUD-AE-2025#CHK-0004",
+          "document_id": "DOC-AUD-AE-2025"
+        }
+      ],
+      "conflicts": [],
+      "top_rerank_score": 0.9978,
+      "coverage": 0.889,
+      "generator_claims_total": 1,
+      "generator_claims_supported": 0,
+      "generation_mode": "extractive_fallback",
+      "cited_total": 3,
+      "cited_correct": 3,
+      "unauthorized_exposure": false,
+      "pii_leak": false,
+      "trace_id": "86cb7525-ce43-4ada-8e96-8121108dbd88",
+      "latency_ms": 85530
+    }
+  ]
+}

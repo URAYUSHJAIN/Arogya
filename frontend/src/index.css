@@ -1,6 +1,5 @@
-@import "tailwindcss";
-@import 'leaflet/dist/leaflet.css';
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+@import "tailwindcss";
 
 html {
   scroll-behavior: smooth;
@@ -58,60 +57,6 @@ h3 {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-/* Emergency Pulse Animation */
-@keyframes emergency-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-.animate-emergency-pulse {
-  animation: emergency-pulse 2s ease-in-out infinite;
-}
-
-/* Location Marker Pulse Animation */
-@keyframes location-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-  }
-}
-
-.location-marker {
-  animation: location-pulse 2s infinite;
-}
-
-/* Emergency Red Glow Effect */
-.emergency-glow {
-  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
-}
-
-/* Map Container Styles */
-.leaflet-container {
-  font-family: inherit;
-  border-radius: 0.75rem;
-}
-
-.leaflet-popup-content-wrapper {
-  border-radius: 0.5rem;
-  padding: 0;
-}
-
-.leaflet-popup-content {
-  margin: 0;
-  padding: 1rem;
 }
 
 /* Pill Loader Animations */
@@ -234,3 +179,16 @@ button:focus-visible {
   }
 }
 
+
+/* Evidence highlight (Trace Inspector) */
+@keyframes evidenceFlash {
+  0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.55); }
+  100% { box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+}
+.evidence-highlight {
+  background: #fef3c7;
+  border-color: #d97706 !important;
+  animation: evidenceFlash 1.2s ease-out 2;
+}
+.scroll-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: #c8dfc9; border-radius: 9999px; }

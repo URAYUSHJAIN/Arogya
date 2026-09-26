@@ -1,0 +1,17 @@
+{
+  "_notice": "Document-level metadata for sources whose format cannot carry front matter (CSV). Markdown files carry YAML-style front matter; the JSON audit file carries a 'document' block. All data is synthetic.",
+  "3_hospital_drug_formulary_2025.csv": {
+    "document_id": "DOC-FORM-2025",
+    "title": "Hospital Drug Formulary - Anti-infectives & Critical Care",
+    "category": "formulary",
+    "version": "2025.1",
+    "status": "active",
+    "effective_from": "2025-03-01",
+    "effective_to": null,
+    "supersedes": null,
+    "department": "Pharmacy",
+    "classification": "internal",
+    "table_id": "TBL-FORM-2025",
+    "row_id_column": "row_id"
+  }
+}

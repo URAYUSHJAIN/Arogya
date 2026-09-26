@@ -1,8 +1,8 @@
 {
-  "name": "arogyaplus",
+  "name": "arogya-enterprise-rag",
   "private": true,
   "version": "0.0.0",
-  "description": "AI-powered healthcare platform for medical report analysis",
+  "description": "Arogya Evidence-Before-Generation Engine - P-02 Healthcare Enterprise RAG frontend",
   "author": "",
   "license": "MIT",
   "repository": {
@@ -17,17 +17,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.1.16",
-    "framer-motion": "^12.23.26",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.4",
-    "leaflet": "^1.9.4",
-    "pdfjs-dist": "^5.4.449",
+    "@tanstack/react-table": "^8.21.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-hook-form": "^7.68.0",
-    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.5",
     "recharts": "^3.6.0",
     "tailwindcss": "^4.1.16"
@@ -41,7 +34,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "vite": "^7.1.7",
-    "vite-plugin-pwa": "^1.2.0"
+    "vite": "^7.1.7"
   }
 }

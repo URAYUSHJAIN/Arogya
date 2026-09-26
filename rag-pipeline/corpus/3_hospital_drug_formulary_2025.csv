@@ -1,0 +1,21 @@
+row_id,medication,strength,route,dosing_note,formulary_tier,prior_authorization,restriction,status,effective_date
+ROW-01,Vancomycin,1 g vial,IV,Weight-based: 25 mg/kg loading then 15 mg/kg q12h; AUC-guided per DOC-SEP-2025 section 4.2; max infusion rate 10 mg/min,Tier 2,No,Pharmacist AUC dosing review within 24 hours,Active,2025-03-01
+ROW-02,Piperacillin-Tazobactam,4.5 g vial,IV,4.5 g q6h extended infusion over 4 hours,Tier 2,No,None,Active,2025-03-01
+ROW-03,Meropenem,1 g vial,IV,1 g q8h; extended infusion permitted,Tier 3,No,Infectious Diseases approval required after 72 hours,Active,2025-03-01
+ROW-04,Linezolid,600 mg tablet / 600 mg IV bag,PO/IV,600 mg q12h,Tier 4,Yes,Restricted: ID approval and payer prior authorization,Active,2025-03-01
+ROW-05,Daptomycin,500 mg vial,IV,8-10 mg/kg q24h; monitor CK weekly,Tier 4,Yes,Restricted: ID approval and payer prior authorization,Active,2025-03-01
+ROW-06,Aztreonam,2 g vial,IV,2 g q8h,Tier 3,No,Severe beta-lactam allergy only,Active,2025-03-01
+ROW-07,Ceftriaxone,1 g vial,IV/IM,1-2 g q24h,Tier 1,No,None,Active,2025-03-01
+ROW-08,Cefepime,2 g vial,IV,2 g q8h,Tier 2,No,None,Active,2025-03-01
+ROW-09,Ciprofloxacin,400 mg IV bag,IV,400 mg q12h,Tier 2,No,Not for empiric sepsis therapy per 2025 guideline,Active,2025-03-01
+ROW-10,Gentamicin,80 mg/2 mL ampoule,IV,5-7 mg/kg q24h; level-guided,Tier 1,No,Single-dose empiric use only unless ID approved,Active,2025-03-01
+ROW-11,Norepinephrine,4 mg/4 mL ampoule,IV infusion,0.05-0.5 mcg/kg/min titrated to MAP 65 mmHg,Tier 1,No,Peripheral use up to 6 hours only,Active,2025-03-01
+ROW-12,Vasopressin,20 units/mL vial,IV infusion,0.03 units/min fixed rate,Tier 3,No,ICU use only,Active,2025-03-01
+ROW-13,Hydrocortisone,100 mg vial,IV,50 mg q6h for refractory shock,Tier 1,No,None,Active,2025-03-01
+ROW-14,Albumin 20%,100 mL bottle,IV,As directed after large-volume crystalloid,Tier 3,Yes,Critical care consultant approval,Active,2025-03-01
+ROW-15,Plasma-Lyte 148,1000 mL bag,IV,30 mL/kg bolus in sepsis-induced hypotension,Tier 1,No,None,Active,2025-03-01
+ROW-16,Micafungin,100 mg vial,IV,100 mg q24h,Tier 4,Yes,Restricted: ID approval and payer prior authorization,Active,2025-03-01
+ROW-17,Tigecycline,50 mg vial,IV,100 mg loading then 50 mg q12h,Tier 4,Yes,Restricted: ID approval,Active,2025-03-01
+ROW-18,Ceftazidime-Avibactam,2.5 g vial,IV,2.5 g q8h over 2 hours,Tier 4,Yes,Restricted: carbapenem-resistant organisms only,Active,2025-03-01
+ROW-19,Metronidazole,500 mg IV bag,IV/PO,500 mg q8h,Tier 1,No,None,Active,2025-03-01
+ROW-20,Colistimethate,1 million unit vial,IV,9 million units loading then 4.5 million units q12h,Tier 4,Yes,Restricted: ID approval and pharmacist renal dosing,Formulary review pending,2025-03-01

@@ -1,119 +1,64 @@
-import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { translations } from '../data/translations';
+import { Link, NavLink } from 'react-router-dom';
+import { useWorkspace } from '../context/WorkspaceContext';
+import { ROLES } from '../context/roles';
 
-const Header = ({ language }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const t = translations[language].header;
-  const logoSrc = `${import.meta.env.BASE_URL}logo1.jpg`;
+const navClass = ({ isActive }) =>
+  `rounded-lg px-3 py-1.5 text-sm transition-colors ${isActive ? 'bg-[#E8F2E9] text-[#2A4A35] font-medium' : 'text-gray-600 hover:text-[#3D6B4F]'}`;
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleNavClick = (e, sectionId) => {
-    e.preventDefault();
-    
-    // If not on home page, navigate to home first
-    if (location.pathname !== '/') {
-      navigate('/');
-      // Wait for navigation to complete, then scroll
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      // Already on home page, just scroll
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-    
-    // Close mobile menu if open
-    setIsMobileMenuOpen(false);
-  };
+const Header = () => {
+  const { role, setRole, corpus, privacy, backendError } = useWorkspace();
+  const leaks = privacy?.leaks_in_delivered_answers;
 
   return (
-    <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto mt-4 flex max-w-2xl items-center justify-between rounded-2xl border border-green-100 bg-white/90 px-6 py-3 shadow-sm backdrop-blur-md">
-        <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3D6B4F]">
-            <img
-              src={logoSrc}
-              alt="ArogyaPlus Logo"
-              className="h-5 w-5 object-contain"
-              onError={(event) => {
-                event.currentTarget.src = `${import.meta.env.BASE_URL}logo.ico`;
-              }}
-            />
+    <header className="sticky top-0 z-40 border-b border-green-100 bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-4 py-2.5">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#3D6B4F]">
+            <img src={`${import.meta.env.BASE_URL}logo.ico`} alt="" className="h-5 w-5 object-contain" />
+          </div>
+          <div className="leading-tight">
+            <div className="font-['Playfair_Display'] text-lg font-bold text-[#1E3A28]">AROGYA</div>
+            <div className="text-[10px] uppercase tracking-widest text-[#6B8F71]">Enterprise RAG</div>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-4 md:flex">
-          <a href="/#home" onClick={(e) => handleNavClick(e, 'home')} className="text-sm text-gray-600 transition-colors hover:text-[#3D6B4F]">
-            {t.home}
-          </a>
-          <a href="/#services" onClick={(e) => handleNavClick(e, 'services')} className="text-sm text-gray-600 transition-colors hover:text-[#3D6B4F]">
-            {t.services}
-          </a>
-          <a href="/#ai-features" onClick={(e) => handleNavClick(e, 'ai-features')} className="text-sm text-gray-600 transition-colors hover:text-[#3D6B4F]">
-            {t.aiPlatform}
-          </a>
-          <Link to="/emergency" className="text-sm text-gray-600 transition-colors hover:text-[#3D6B4F]">
-            Emergency
-          </Link>
+        <nav className="ml-2 flex items-center gap-1">
+          <NavLink to="/" end className={navClass}>Overview</NavLink>
+          <NavLink to="/ai-analysis" className={navClass}>Clinical Auditor</NavLink>
+          <NavLink to="/emergency" className={navClass}>Evaluation</NavLink>
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <Link
-            to="/ai-analysis"
-            className="rounded-xl bg-[#2A4A35] px-4 py-2 text-sm text-white transition-colors hover:bg-[#1E3A28]"
-          >
-            Upload Report
-          </Link>
-        </div>
+        <div className="ml-auto flex flex-wrap items-center gap-2">
+          <label className="flex items-center gap-2 rounded-xl border border-[#C8DFC9] bg-[#F5F3EE] px-3 py-1.5 text-sm">
+            <span className="text-xs font-medium uppercase tracking-wide text-[#6B8F71]">Role</span>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="bg-transparent font-semibold text-[#1E3A28] outline-none"
+              aria-label="Active role (validated by backend)"
+            >
+              {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
+            </select>
+          </label>
 
-        <button
-          className="rounded-lg p-2 text-[#3D6B4F] transition-colors hover:bg-[#E8F2E9] md:hidden"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-          aria-expanded={isMobileMenuOpen}
-          aria-controls="mobile-menu"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+          <span
+            title={privacy ? `${privacy.queries_scanned} answers scanned · ${privacy.output_identifiers_blocked} identifiers blocked at output · ${privacy.ingestion_redactions} redacted at ingestion` : 'Privacy status unavailable'}
+            className={`rounded-xl border px-3 py-1.5 text-xs font-semibold ${
+              leaks === undefined ? 'border-gray-200 bg-gray-50 text-gray-500'
+                : leaks === 0 ? 'border-[#A8C5AE] bg-[#E8F2E9] text-[#2A4A35]' : 'border-red-300 bg-red-50 text-red-700'}`}
           >
-            {isMobileMenuOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+            PII Guard: {leaks === undefined ? '—' : `${leaks} leak${leaks === 1 ? '' : 's'}`}
+            {privacy ? <span className="ml-1 font-normal opacity-70">/ {privacy.queries_scanned} scanned</span> : null}
+          </span>
+
+          <span className="rounded-xl border border-[#C8DFC9] bg-white px-3 py-1.5 text-xs font-semibold text-[#2A4A35]">
+            Docs: {corpus ? `${corpus.active} active / ${corpus.total}` : '—'}
+          </span>
+          {backendError && (
+            <span className="rounded-xl border border-red-300 bg-red-50 px-3 py-1.5 text-xs text-red-700">Backend offline</span>
+          )}
+        </div>
       </div>
-
-      {isMobileMenuOpen && (
-        <div className="mx-auto mt-2 max-w-2xl rounded-2xl border border-green-100 bg-white p-4 md:hidden" id="mobile-menu">
-          <nav className="flex flex-col gap-2">
-            <a href="/#home" onClick={(e) => handleNavClick(e, 'home')} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-[#E8F2E9] hover:text-[#3D6B4F]">{t.home}</a>
-            <a href="/#services" onClick={(e) => handleNavClick(e, 'services')} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-[#E8F2E9] hover:text-[#3D6B4F]">{t.services}</a>
-            <a href="/#ai-features" onClick={(e) => handleNavClick(e, 'ai-features')} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-[#E8F2E9] hover:text-[#3D6B4F]">{t.aiPlatform}</a>
-            <Link to="/emergency" onClick={() => setIsMobileMenuOpen(false)} className="rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-[#E8F2E9] hover:text-[#3D6B4F]">Emergency</Link>
-            <Link to="/ai-analysis" onClick={() => setIsMobileMenuOpen(false)} className="mt-2 rounded-xl bg-[#2A4A35] px-4 py-2 text-center text-sm text-white">Upload Report</Link>
-          </nav>
-        </div>
-      )}
     </header>
   );
 };
