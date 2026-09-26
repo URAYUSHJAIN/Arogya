@@ -77,20 +77,34 @@ the database and are enforced server-side, and it runs in Docker so setup is a s
 
 ## Architecture
 
-```
-Synthetic corpus (MD / CSV / JSON)
-  → Parser engine (front matter, heading hierarchy, row/record atomic)
-  → PII/PHI gate (field + pattern redaction, identifier-hash registry)
-  → Structure-aware chunking with provenance (section, lines, table/row, record)
-  → PostgreSQL (documents, versions, chunks + embeddings, table rows, ACL, audit, eval)
-  → Role → authorized candidate set (pre-retrieval ACL)
-  → BM25 (rank_bm25)  +  dense (all-MiniLM-L6-v2)  → Reciprocal Rank Fusion
-  → Cross-encoder rerank (BAAI/bge-reranker-base)
-  → Conflict + lifecycle resolver
-  → Evidence sufficiency gate ──► refusal (no generation)
-  → Grounded local LLM synthesis (Qwen2.5-0.5B-Instruct on CPU, authorized evidence only)
-  → Claim/citation verification (unsupported sentences removed)
-  → Output privacy gate → audit event → React evidence workspace
+```mermaid
+flowchart TD
+    subgraph ING[Ingestion]
+        C[Synthetic corpus: MD / CSV / JSON] --> PE[Parser engine: front matter, headings, rows, records]
+        PE --> PII1[PII/PHI gate: redaction + identifier-hash registry]
+        PII1 --> CH[Structure-aware chunking with provenance]
+    end
+    CH --> DB[(PostgreSQL in Docker: documents, versions, chunks, embeddings, table rows, ACL, audit, eval)]
+    subgraph RET[Retrieval]
+        ACL[Role -> authorized candidate set] --> BM[BM25 - rank_bm25]
+        ACL --> DN[Dense - all-MiniLM-L6-v2]
+        BM --> RRF[Reciprocal Rank Fusion]
+        DN --> RRF
+        RRF --> RR[Cross-encoder rerank - bge-reranker-base]
+    end
+    DB --> ACL
+    subgraph RSN[Reasoning and generation]
+        CF[Conflict + lifecycle resolver] --> SG{Evidence sufficient?}
+        SG -- No --> RF[Refusal, no generation]
+        SG -- Yes --> LLM[Local LLM - Qwen2.5-0.5B on CPU, authorized evidence only]
+        LLM --> VR[Claim/citation verification: unsupported sentences removed]
+        VR --> PII2[Output privacy gate]
+    end
+    RR --> CF
+    PII2 --> AU[Audit event]
+    RF --> AU
+    AU --> DB
+    AU --> UI[React evidence workspace]
 ```
 
 Details: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [RETRIEVAL](docs/RETRIEVAL.md) ·
