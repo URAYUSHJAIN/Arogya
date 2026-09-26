@@ -20,15 +20,46 @@ is allowed to exist:
 
 ## Quick start (commands to run)
 
-No API key is needed: every model runs locally. You need Docker Desktop, Python 3.11+ and Node 20+.
+No API key is needed: every model runs locally.
+
+### Option A: everything in Docker (recommended)
+
+Only Docker Desktop is required.
+
+```bash
+# one-time: create your local secrets file and set POSTGRES_PASSWORD in it (never commit .env)
+cp .env.example .env
+
+# build and start PostgreSQL + backend + frontend
+docker compose up --build
+```
+
+Wait until `arogya-backend` is healthy (~30 s), then open **http://localhost:5173/ai-analysis**.
+
+| Task | Command |
+|---|---|
+| Start in background | `docker compose up --build -d` |
+| Status | `docker compose ps` |
+| Backend logs | `docker compose logs -f backend` |
+| Stop | `docker compose down` |
+| Reset database | `docker compose down -v && docker compose up --build` |
+
+Containers: `arogya-postgres` (5432), `arogya-backend` (8010), `arogya-frontend` (nginx on 5173, proxies
+`/api` to the backend). The first start downloads the local models (~2.2 GB) into the `arogya_hf_cache`
+volume; set `HF_CACHE` in `.env` to reuse an existing Hugging Face cache folder instead. `.env` is
+never copied into the images.
+
+### Option B: run backend and frontend manually
+
+Needs Docker Desktop (for PostgreSQL), Python 3.11+ and Node 20+.
 Commands use the Windows `py` launcher; on macOS/Linux use `python3` instead.
 
 ```bash
 # 0. one-time: create your local secrets file and set a password in it (never commit .env)
 cp .env.example .env
 
-# 1. start PostgreSQL (Docker)
-docker compose up -d
+# 1. start only PostgreSQL (Docker)
+docker compose up -d postgres
 
 # 2. start the backend  →  http://127.0.0.1:8010
 cd rag-pipeline
