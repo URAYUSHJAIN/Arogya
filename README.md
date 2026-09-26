@@ -1,17 +1,17 @@
-# Arogya — Evidence-Before-Generation Engine
+# Arogya: Evidence-Before-Generation Engine
 
-**Escape Velocity Hackathon 1.0 · Track P-02 — Healthcare Greenfield Enterprise RAG**
+**Escape Velocity Hackathon 1.0 · Track P-02: Healthcare Greenfield Enterprise RAG**
 
 Arogya is an enterprise retrieval-augmented system over a (synthetic) hospital's knowledge:
 clinical guidelines, SOPs, a drug formulary table, payer policy, a device manual and restricted
-adverse-event audit records. It is built around one rule from the problem statement —
-*a confident wrong answer is more expensive than no answer* — so every answer must prove why it
+adverse-event audit records. It is built around one rule from the problem statement,
+*a confident wrong answer is more expensive than no answer*, so every answer must prove why it
 is allowed to exist:
 
 1. evidence exists, **and the role is authorized to retrieve it** (enforced before scoring);
 2. document lifecycle (active / superseded) is considered;
 3. disagreeing sources are **surfaced**, never silently merged;
-4. evidence is **sufficient** — otherwise the system refuses and says what is missing;
+4. evidence is **sufficient**, otherwise the system refuses and says what is missing;
 5. each answer sentence is **verified against the passage it cites**;
 6. identifiers cannot leak (privacy gate at ingestion, query, model input and output);
 7. every query is audited, and quality is measured on a reproducible 15-question benchmark.
@@ -20,7 +20,7 @@ is allowed to exist:
 
 ## Quick start (commands to run)
 
-No API key is needed — every model runs locally. You need Docker Desktop, Python 3.11+ and Node 20+.
+No API key is needed: every model runs locally. You need Docker Desktop, Python 3.11+ and Node 20+.
 
 ```bash
 # 0. one-time: create your local secrets file and set a password in it (never commit .env)
@@ -51,6 +51,25 @@ The first start downloads the local models (~2.2 GB, once).
 ## RAG pipeline in one line
 
 **Question → role check → authorized chunks only → BM25 + dense search → RRF fusion → cross-encoder rerank → conflict & version check → enough evidence? (no → refuse) → local LLM answer → every sentence checked against its citation → PII scan → audit log → answer with clickable citations**
+
+```mermaid
+flowchart LR
+    Q[Question] --> R[Role check]
+    R --> A[Authorized chunks only]
+    A --> B[BM25 search]
+    A --> D[Dense search]
+    B --> F[RRF fusion]
+    D --> F
+    F --> X[Cross-encoder rerank]
+    X --> C[Conflict & version check]
+    C --> S{Enough evidence?}
+    S -- No --> RF[Refuse + state missing evidence]
+    S -- Yes --> L[Local LLM answer]
+    L --> V[Check every sentence against its citation]
+    V --> P[PII scan]
+    P --> AU[Audit log]
+    AU --> OUT[Answer with clickable citations]
+```
 
 **Why PostgreSQL:** one local, reliable source of truth for documents, versions, chunks,
 embeddings, role permissions, audit logs and evaluation runs. Access rules and lifecycle live in
@@ -132,7 +151,7 @@ python server.py        # http://127.0.0.1:8010
 First start downloads/loads the models from Hugging Face into the local cache
 (`all-MiniLM-L6-v2`, `bge-reranker-base`, `Qwen2.5-0.5B-Instruct`, ~2.2 GB total). Everything runs on CPU.
 
-Generation provider (explicit, no silent cloud fallback — there is no cloud provider in the code):
+Generation provider (explicit, no silent cloud fallback; there is no cloud provider in the code):
 `GENERATION_PROVIDER=transformers` (default, local HF model) · `ollama` (localhost daemon only) ·
 `extractive` (deterministic local evidence-sentence composer).
 
@@ -149,7 +168,7 @@ npm run dev             # http://localhost:5173 (Vite proxies /api → 127.0.0.1
 The corpus in `rag-pipeline/corpus/` was authored for this project and is fully synthetic.
 Markdown files carry metadata in front matter, the CSV's metadata is in `manifest.json`, and the
 JSON carries a `document` block. New documents can be ingested through **+ Ingest Doc** in the
-workspace or `POST /api/ingest` — they go through the same parser, privacy gate, chunker, ACL
+workspace or `POST /api/ingest`; they go through the same parser, privacy gate, chunker, ACL
 and embedding path.
 
 ### 5. Evaluation
