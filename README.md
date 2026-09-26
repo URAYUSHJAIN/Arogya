@@ -21,6 +21,7 @@ is allowed to exist:
 ## Quick start (commands to run)
 
 No API key is needed: every model runs locally. You need Docker Desktop, Python 3.11+ and Node 20+.
+Commands use the Windows `py` launcher; on macOS/Linux use `python3` instead.
 
 ```bash
 # 0. one-time: create your local secrets file and set a password in it (never commit .env)
@@ -31,8 +32,8 @@ docker compose up -d
 
 # 2. start the backend  →  http://127.0.0.1:8010
 cd rag-pipeline
-pip install -r requirements.txt
-python server.py
+py -m pip install -r requirements.txt
+py server.py
 
 # 3. start the frontend (new terminal)  →  http://localhost:5173
 cd frontend
@@ -41,8 +42,8 @@ npm run dev
 
 # optional: tests and the 15-question benchmark
 cd rag-pipeline
-python -m pytest tests -q
-python evaluator.py
+py -m pytest tests -q
+py evaluator.py
 ```
 
 Open **http://localhost:5173/ai-analysis**, pick a role in the header, and ask a question.
@@ -158,9 +159,9 @@ password = `POSTGRES_PASSWORD` from `.env`.
 
 ```bash
 cd rag-pipeline
-pip install -r requirements.txt
-python ingest.py        # optional: (re)ingest corpus/ explicitly; server also bootstraps on first start
-python server.py        # http://127.0.0.1:8010
+py -m pip install -r requirements.txt
+py ingest.py        # optional: (re)ingest corpus/ explicitly; server also bootstraps on first start
+py server.py        # http://127.0.0.1:8010
 ```
 First start downloads/loads the models from Hugging Face into the local cache
 (`all-MiniLM-L6-v2`, `bge-reranker-base`, `Qwen2.5-0.5B-Instruct`, ~2.2 GB total). Everything runs on CPU.
@@ -188,14 +189,14 @@ and embedding path.
 ### 5. Evaluation
 
 ```bash
-cd rag-pipeline && python evaluator.py      # or the dashboard button → POST /api/evaluate
+cd rag-pipeline && py evaluator.py      # or the dashboard button → POST /api/evaluate
 ```
 Writes `evaluation/results/latest.json` and persists `evaluation_runs` / `evaluation_results`.
 
 ### 6. Tests
 
 ```bash
-cd rag-pipeline && python -m pytest tests -q
+cd rag-pipeline && py -m pytest tests -q
 ```
 
 ## Demo flow
@@ -214,7 +215,7 @@ Live benchmark run `201a5188` (15 questions through the real pipeline, generator
 | 15/15 | 62.5% (25/40 draft claims) | 100% (22/22) | 100% (3/3, 0% false positives) | 100% | 0% | 0% |
 
 Groundedness measures the raw local generator. Unsupported sentences are removed before delivery.
-Tests: `30 passed` (`python -m pytest tests -q`).
+Tests: `30 passed` (`py -m pytest tests -q`).
 
 ## Known limitations
 
