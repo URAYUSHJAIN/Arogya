@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --ap-primary: #3d6b4f;
+  --ap-dark: #2a4a35;
+  --ap-deep: #1e3a28;
+  --ap-light: #6b8f71;
+  --ap-tint-1: #a8c5ae;
+  --ap-tint-2: #c8dfc9;
+  --ap-tint-3: #e8f2e9;
+  --ap-cream: #f5f3ee;
+  --ap-warm: #fdfcf9;
+
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #2a4a35;
+  background-color: #fdfcf9;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a:not([class]) {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: inherit;
+}
+a:not([class]):hover {
+  color: inherit;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #fdfcf9;
+  color: #2a4a35;
+  font-family: 'DM Sans', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Emergency Pulse Animation */
+@keyframes emergency-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-emergency-pulse {
+  animation: emergency-pulse 2s ease-in-out infinite;
+}
+
+/* Location Marker Pulse Animation */
+@keyframes location-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.location-marker {
+  animation: location-pulse 2s infinite;
+}
+
+/* Emergency Red Glow Effect */
+.emergency-glow {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+}
+
+/* Map Container Styles */
+.leaflet-container {
+  font-family: inherit;
+  border-radius: 0.75rem;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.5rem;
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 1rem;
+}
+
+/* Pill Loader Animations */
+:root {
+  --EASE_INOUT_QUAD: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  --EASE_IN_QUAD: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --EASE_OUT_QUAD: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --loaderPill_DURATION: 1800ms;
+}
+
+.pill-bounce {
+  animation: loaderPillBounce var(--loaderPill_DURATION) linear infinite;
+}
+
+.pill-flop {
+  animation: loaderPillFlop var(--loaderPill_DURATION) linear infinite;
+}
+
+.pill-gradient {
+  background-image: linear-gradient(to right, #3d6b4f 50%, #fdfcf9 50%);
+}
+
+.pill-shadow {
+  transform: translateY(-15px);
+  animation: loaderPillScale var(--loaderPill_DURATION) linear infinite;
+}
+
+@keyframes loaderPillBounce {
+  0% {
+    transform: translateY(123px);
+    animation-timing-function: var(--EASE_OUT_QUAD);
+  }
+  25% {
+    transform: translateY(40px);
+    animation-timing-function: var(--EASE_IN_QUAD);
+  }
+  50% {
+    transform: translateY(120px);
+    animation-timing-function: var(--EASE_OUT_QUAD);
+  }
+  75% {
+    transform: translateY(20px);
+    animation-timing-function: var(--EASE_IN_QUAD);
+  }
+  100% {
+    transform: translateY(120px);
+  }
+}
+
+@keyframes loaderPillFlop {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(450deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes loaderPillScale {
+  0% {
+    transform: translateY(-15px) scale(1, 1);
+    animation-timing-function: var(--EASE_OUT_QUAD);
+  }
+  25% {
+    transform: translateY(-15px) scale(0.7, 1);
+    animation-timing-function: var(--EASE_IN_QUAD);
+  }
+  50% {
+    transform: translateY(-15px) scale(1, 1);
+    animation-timing-function: var(--EASE_OUT_QUAD);  
+  }
+  75% {
+    transform: translateY(-15px) scale(0.6, 1);
+    animation-timing-function: var(--EASE_IN_QUAD);
+  }
+  100% {
+    transform: translateY(-15px) scale(1, 1);
+  }
+}
+
+/* Floating Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
