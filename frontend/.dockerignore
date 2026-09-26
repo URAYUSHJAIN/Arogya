@@ -1,0 +1,13 @@
+# Never ship secrets or local artefacts into images
+.env
+**/.env
+.git
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+rag-pipeline/uploads
+evaluation/results
+context
+docs

@@ -1,5 +1,5 @@
-# Local PostgreSQL for Arogya (source of truth for the RAG pipeline).
-# Usage:  docker compose up -d      (reads POSTGRES_PASSWORD from ./.env — never committed)
+# Whole Arogya stack:  docker compose up --build
+# Reads POSTGRES_PASSWORD (and optional HF_CACHE) from ./.env, which is never copied into images.
 services:
   postgres:
     image: postgres:16-alpine
@@ -20,6 +20,46 @@ services:
       retries: 20
       start_period: 10s
 
+  backend:
+    build:
+      context: .
+      dockerfile: rag-pipeline/Dockerfile
+    container_name: arogya-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/arogya_rag
+      GENERATION_PROVIDER: ${GENERATION_PROVIDER:-transformers}
+      LOCAL_MODEL_NAME: ${LOCAL_MODEL_NAME:-Qwen/Qwen2.5-0.5B-Instruct}
+    ports:
+      - "8010:8010"
+    volumes:
+      # Hugging Face model cache: a named volume by default (models download once, ~2.2 GB),
+      # or set HF_CACHE in .env to a host cache folder to reuse already-downloaded models.
+      - ${HF_CACHE:-arogya_hf_cache}:/root/.cache/huggingface
+      - ./evaluation/results:/app/evaluation/results
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8010/api/health', timeout=5)"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: arogya-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
 volumes:
   arogya_pgdata:
     name: arogya_pgdata
+  arogya_hf_cache:
+    name: arogya_hf_cache
